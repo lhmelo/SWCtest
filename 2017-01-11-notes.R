@@ -60,4 +60,5 @@ gapminder[1, c(4, 5)]
 
 #extract rows that contain information for the years 2002 and 2007
 gapminder[gapminder$year == 2002 | gapminder$year == 2007,] 
-gapminder[gapminder$year %in% c(2002, 2007),] 
+gapminder[gapminder$year %in% c(2002, 2007),] #looking for values of gapminder$year which appear in the collection containing 2002 and 2007
+
