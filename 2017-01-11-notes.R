@@ -62,3 +62,97 @@ gapminder[1, c(4, 5)]
 gapminder[gapminder$year == 2002 | gapminder$year == 2007,] 
 gapminder[gapminder$year %in% c(2002, 2007),] #looking for values of gapminder$year which appear in the collection containing 2002 and 2007
 
+#data visualization----
+#
+library(ggplot2)
+
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp)) +
+  geom_point()
+
+ggplot(data=gapminder, aes(x=year, y=lifeExp)) +
+  geom_point()
+
+ggplot(data=gapminder, 
+       aes(x=year, y=lifeExp, color=continent)) +
+  geom_point()
+
+ggplot(data=gapminder, 
+       aes(x=year, y=lifeExp, color=continent, by=country)) +
+  geom_line()
+
+ggplot(data=gapminder, 
+       aes(x=year, y=lifeExp, color=continent, by=country)) +
+  geom_point() +geom_line()
+
+#in previous line, color applied to all layers.  Can apply colors to only one geom:
+ggplot(data=gapminder, 
+       aes(x=year, y=lifeExp, by=country)) +
+  geom_point() +
+  geom_line(aes(color=continent))
+
+#Back to scatterplot:
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp, color=continent)) +
+  geom_point()
+
+#change y axis to log scale
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp, color=continent)) +
+  geom_point()+
+  scale_x_log10()
+
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp, color=continent)) +
+  #geom_point()+
+  scale_x_log10()+
+  geom_smooth(method="lm")
+
+#do not show points, do no not color by continenent (all points are black)
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp)) +
+  #geom_point()+
+  scale_x_log10()+
+  geom_smooth(method="lm")
+
+#make points transparent
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp)) +
+  geom_point(alpha=0.5)+
+  scale_x_log10()+
+  geom_smooth(method="lm")
+
+#make points orange
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp)) +
+  geom_point(alpha=0.5, color="orange")+
+  scale_x_log10()+
+  geom_smooth(method="lm")
+
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp)) +
+  geom_point(alpha=0.5, color="orange", pch=17)+
+  scale_x_log10()+
+  geom_smooth(method="lm")
+
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp, pch=continent)) +
+  geom_point(alpha=0.5, color="orange")+
+  scale_x_log10()+
+  geom_smooth(method="lm")
+
+#facet plots----
+
+ggplot(data=gapminder, aes(x=gdpPercap, y=lifeExp, color=continent)) +
+  geom_point()+
+  scale_x_log10()+
+  facet_wrap(~year)+
+  labs(x="GDP", y="Life expectancy", title="Life expectancy by year", color="Continent")
+
+#create a density plot of gdp per capita, filled by continent
+#advanced: transform the x-axis to better visualize the spread of the data and/or add a facet layer to panel the density plots by year
+#
+ggplot(data=gapminder, aes(x=gdpPercap, fill=continent, color=continent)) +
+  geom_density()+
+  scale_x_log10()
+  #facet_wrap(~year)+
+  #labs(x="GDP", y="Life expectancy", title="Life expectancy by year", color="Continent")
+  #
+ggplot(data=gapminder, aes(x=gdpPercap,  fill=continent)) +
+  geom_density(alpha=0.5)+
+  scale_x_log10()+
+facet_wrap(~year)
+#labs(x="GDP", y="Life expectancy", title="Life expectancy by year", color="Continent")
+#
+#order of items in legend are listed in the order of factors.  So reorder factor levels in "continent" to reorder legend items
